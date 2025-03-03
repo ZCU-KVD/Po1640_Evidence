@@ -1,5 +1,5 @@
 ﻿@page "/evidence"
-
+@inject IJSRuntime JavaScript
 <PageTitle>Evidence</PageTitle>
 
 <h1>Evidence!</h1>
@@ -9,9 +9,57 @@
 	<label>Náklady: <input type="number" @bind="Polozka.Naklady" /></label>
 	<label>Výnosy: <input type="number" @bind="Polozka.Vynosy" /></label>
 	<label>Popis: <input type="text" @bind="Polozka.Popis" /></label>
-	<button type="button" class="mx-2 btn btn-success">Přidat</button>
+	@if (IsEditace)
+	{
+		<button @onclick="UkoncitEditaci" type="button" class="mx-2 btn btn-primary">Ukončit editaci</button>
+	}
+	else
+	{
+		<button @onclick="PridatZaznam" type="button" class="mx-2 btn btn-success">Přidat</button>
+	}
 </div>
 
+<div class="p-2 border">
+	<button @onclick="SetriditDleDatumu" type="button" class="mx-2 btn btn-info">Sestřídit dle datumu</button>
+	<button @onclick="SetriditSestupneDleDatumu" type="button" class="mx-2 btn btn-info">Sestřídit sestupne dle datumu</button>
+</div>
+
+<div class="py-2">
+	@if (!Polozky.Any())
+	{
+		<p>Nejsou zatím žádné záznamy</p>
+	}
+	else
+	{
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Datum</th>
+					<th>Náklady</th>
+					<th>Výnosy</th>
+					<th>Zisk</th>
+					<th>Popis</th>
+					<th>Smazat</th>
+					<th>Upravit</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Polozky)
+				{
+					<tr>
+						<td>@item.Datum</td>
+						<td>@item.Naklady</td>
+						<td>@item.Vynosy</td>
+						<td>@item.Zisk</td>
+						<td>@item.Popis</td>
+						<td><button @onclick="()=>SmazatZaznam(item)" type="button" class="btn btn-outline-danger">&times;</button></td>
+						<td><button @onclick="()=>UpravitZaznam(item)" type="button" class="btn btn-outline-info">&plusmn;</button></td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+</div>
 @code {
 
 }
