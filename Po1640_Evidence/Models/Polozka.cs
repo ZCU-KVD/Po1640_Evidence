@@ -24,5 +24,12 @@
 		public string Popis { get; set; } = "";
 
 		public double Zisk => Vynosy - Naklady;
+
+		/// <summary>
+		/// Vlastnost pro zobrazení zisku v HTML formátu
+		/// </summary>
+		public string ZiskHtml => (Zisk > 0) ? $"<span style=\"color:green;\"> {Zisk:C2} </span >" : $"<span style=\"color:red;\"> {Zisk:C2} </span >"; //Ternární operátor
+
+
 	}
 }
