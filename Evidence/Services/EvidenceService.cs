@@ -6,6 +6,14 @@ namespace Evidence.Services
 	{
 		public List<Transakce> TransakceSeznam { get; set; } = new List<Transakce>();
 
+		public void PridatTransakci(Transakce novaTransakce)
+		{
+			TransakceSeznam.Add(novaTransakce);
+		}
+		public void SmazatTransakci(Transakce mazanaTransakce)
+		{
+			TransakceSeznam.Remove(mazanaTransakce);
+		}
 		public void VygenerovatNahodnaData(int pocet)
 		{
 			var random = new Random();
