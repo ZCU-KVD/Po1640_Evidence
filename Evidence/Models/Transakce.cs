@@ -58,5 +58,21 @@ namespace Evidence.Models
 		}
 		public decimal Zisk => Vynosy - Naklady;
 
+		public Transakce Klonovat()
+		{
+			return new Transakce(this.Datum, this.Popis, this.Vynosy, this.Naklady)
+			{
+				Id = this.Id
+			};
+		}
+
+		public void Aktualizovat(Transakce zdroj)
+		{
+			this.Datum = zdroj.Datum;
+			this.Popis = zdroj.Popis;
+			this.Vynosy = zdroj.Vynosy;
+			this.Naklady = zdroj.Naklady;
+		}
+
 	}
 }

@@ -14,6 +14,12 @@ namespace Evidence.Services
 		{
 			TransakceSeznam.Remove(mazanaTransakce);
 		}
+
+		public void AktualizujTransakci(Transakce puvodni, Transakce noveHodnoty)
+		{
+			puvodni.Aktualizovat(noveHodnoty);
+		}
+
 		public void VygenerovatNahodnaData(int pocet)
 		{
 			var random = new Random();
