@@ -4,6 +4,15 @@
 
 <h2>Evidence nákladů a výnosů</h2>
 
+<div class="container mt-3">
+    <div class="d-flex justify-content-end mb-3">
+        <button type="button" @onclick="UlozitData" class="btn btn-outline-primary">Uložit</button>
+        <button type="button" class="mx-2 btn btn-outline-primary">Načíst</button>
+        <button type="button" class="btn btn-outline-danger">Smazat vše</button>
+    </div>
+</div>
+ 
+
 <div class="card">
     @* formulař pro přidávání záznamů *@
     <div class="card-body">
@@ -64,19 +73,19 @@
                         search
                     </span>
                 </span>
-                <input type="text" class="form-control" placeholder="Hledat v popisu">
+                <input type="text" @bind="FiltrText" @bind:event="oninput" class="form-control" placeholder="Hledat v popisu">
             </div>
         </div>
         <div class="col-md-2">
-            <select class="form-select">
-                <option>Zisk rovno (=)</option>
-                <option>Zisk menší než (&lt;)</option>
-                <option>Zisk větší než (&gt;)</option>
+            <select @bind="FiltrZiskOperator" @bind:event="oninput" class="form-select">
+                <option value=@Models.OperatorZisku.Rovno>Zisk rovno (=)</option>
+                <option value=@Models.OperatorZisku.MensiNez>Zisk menší než (&lt;)</option>
+                <option value=@Models.OperatorZisku.VetsiNez>Zisk větší než (&gt;)</option>
             </select>
         </div>
 
         <div class="col-md-2">
-            <input type="number" class="form-control" placeholder="Hodnota...">
+            <input type="number" @bind="FiltrZiskHodnota" @bind:event="oninput" class="form-control" placeholder="Hodnota zisku">
         </div>
 
         <div class="col-md-1">
@@ -99,7 +108,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var itemTranskace in EvidenceService.TransakceSeznam)
+            @foreach (var itemTranskace in FiltrovanySeznamTransakci)
             {
                 var tridaZisku = itemTranskace.Zisk >= 0 ? "text-success" : "text-danger";
                 <tr>

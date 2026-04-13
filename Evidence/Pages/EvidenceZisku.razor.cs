@@ -14,13 +14,19 @@ namespace Evidence.Pages
 		private Models.Transakce? originalEditovaneTransakce = null;
 
 		private bool JeEditace => originalEditovaneTransakce != null;
+
+		public string FiltrText { get; set; } = string.Empty;
+		public decimal? FiltrZiskHodnota { get; set; }
+		public Models.OperatorZisku FiltrZiskOperator { get; set; }
+
+		private List<Models.Transakce> FiltrovanySeznamTransakci => EvidenceService.FiltrovatTransakce(FiltrText, FiltrZiskHodnota, FiltrZiskOperator);
 		#endregion
 
 		protected override void OnInitialized()
 		{
 			if(EvidenceService.TransakceSeznam.Count == 0)
 			{
-				EvidenceService.VygenerovatNahodnaData(5);
+				EvidenceService.VygenerovatNahodnaData(30);
 
 			}
 		}
@@ -65,6 +71,16 @@ namespace Evidence.Pages
 		{ 
 			formularTransakce = new Models.Transakce();
 			originalEditovaneTransakce = null;
+		}
+		#endregion
+
+
+		#region Ukladádání dat
+		private async Task UlozitData()
+		{ 
+			var json = System.Text.Json.JsonSerializer.Serialize(EvidenceService.TransakceSeznam);
+			await JS.InvokeVoidAsync("localStorage.setItem", "transakceData", json);
+			await JS.InvokeVoidAsync("alert", "Data byla uložena do localStorage.");
 		}
 		#endregion
 	}
